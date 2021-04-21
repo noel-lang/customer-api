@@ -22,10 +22,6 @@ public class CustomerService {
 		this.customerRepository = customerRepository;
 	}
 
-	public List<Customer> findAll() {
-		return customerRepository.findAll();
-	}
-
 	public Page<Customer> findAll(Pageable pageable) {
 		return customerRepository.findAll(pageable);
 	}
