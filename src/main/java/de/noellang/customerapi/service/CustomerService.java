@@ -1,9 +1,13 @@
 package de.noellang.customerapi.service;
 
+import de.noellang.customerapi.exception.ResourceNotFoundException;
 import de.noellang.customerapi.model.Customer;
 import de.noellang.customerapi.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
+import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +22,16 @@ public class CustomerService {
 
 	public List<Customer> findAll() {
 		return customerRepository.findAll();
+	}
+
+	public Customer findById(Long id) {
+		Optional<Customer> customer = customerRepository.findById(id);
+
+		if (customer.isEmpty()) {
+			throw new ResourceNotFoundException();
+		}
+
+		return customer.get();
 	}
 
 	public Optional<Customer> findByEmail(String email) {
