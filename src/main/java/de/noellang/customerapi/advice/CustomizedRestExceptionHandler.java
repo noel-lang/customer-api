@@ -38,4 +38,7 @@ public class CustomizedRestExceptionHandler {
 				.body(response);
 	}
 
+	// TODO: InvalidDataAccessApiUsageException
+	// -> Falsche Übergabe von Parametern
+
 }

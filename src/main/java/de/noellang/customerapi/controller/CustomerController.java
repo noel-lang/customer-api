@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/customer")
@@ -47,12 +48,12 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Customer> show(@PathVariable Long id) {
+	public ResponseEntity<Customer> show(@PathVariable String id) {
 		return ResponseEntity.ok(customerService.findById(id));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable String id) {
 		customerService.deleteById(id);
 		return ResponseEntity.ok().build();
 	}

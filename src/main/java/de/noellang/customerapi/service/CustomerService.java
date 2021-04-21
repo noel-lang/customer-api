@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -29,7 +30,7 @@ public class CustomerService {
 		return customerRepository.findAll(pageable);
 	}
 
-	public Customer findById(Long id) {
+	public Customer findById(String id) {
 		Optional<Customer> customer = customerRepository.findById(id);
 
 		if (customer.isEmpty()) {
@@ -39,7 +40,7 @@ public class CustomerService {
 		return customer.get();
 	}
 
-	public void deleteById(Long id) {
+	public void deleteById(String id) {
 		customerRepository.deleteById(id);
 	}
 
