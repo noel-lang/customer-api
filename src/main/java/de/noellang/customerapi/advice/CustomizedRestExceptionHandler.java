@@ -30,7 +30,7 @@ public class CustomizedRestExceptionHandler {
 		ErrorResponse response = ErrorResponse
 				.builder()
 				.error("EmailAlreadyExists")
-				.message("Diese E-Mail existiert bereits.")
+				.message("Diese E-Mail existiert bereits")
 				.build();
 
 		return ResponseEntity

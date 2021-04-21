@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import de.noellang.customerapi.model.Customer;
 import de.noellang.customerapi.payload.CreateCustomerRequest;
-import de.noellang.customerapi.repository.CustomerRepository;
 import de.noellang.customerapi.security.JwtTokenProvider;
 import de.noellang.customerapi.service.CustomerService;
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.text.MessageFormat;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,6 +37,9 @@ class CustomerControllerTest {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
+	@Autowired
+	private CustomerService customerService;
+
 	@Test
 	void cantRetrieveCustomersWhenUnauthenticated() throws Exception {
 		mockMvc.perform(get("/v1/customer"))
@@ -52,6 +53,40 @@ class CustomerControllerTest {
 				get("/v1/customer")
 						.header("Authorization", "Bearer " + jwtTokenProvider.generateToken()
 					)).andExpect(status().isOk());
+	}
+
+	@Test
+	void throwsResourceNotFoundError() throws Exception {
+		mockMvc.perform(get("/v1/customer/blabla").header("Authorization", "Bearer " + jwtTokenProvider.generateToken()))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.error").value("ResourceNotFound"))
+				.andExpect(jsonPath("$.message").value("Die angefragte Resource konnte nicht gefunden werden"));
+	}
+
+	@Test
+	void throwsEmailAlreadyExistsError() throws Exception {
+		CreateCustomerRequest request = new CreateCustomerRequest();
+		request.setFirstName("Max");
+		request.setLastName("Mustermann");
+		request.setEmail("max.mustermann@example.org");
+
+		customerService.create(request);
+
+		String token = "Bearer " + jwtTokenProvider.generateToken();
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(request);
+
+		mockMvc.perform(
+				post("/v1/customer")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(requestJson)
+						.header("Authorization", token)
+		).andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.error").value("EmailAlreadyExists"))
+		.andExpect(jsonPath("$.message").value("Diese E-Mail existiert bereits"));
 	}
 
 	@Test
