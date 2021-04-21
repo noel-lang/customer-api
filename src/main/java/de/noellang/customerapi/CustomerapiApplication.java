@@ -1,11 +1,13 @@
 package de.noellang.customerapi;
 
 import de.noellang.customerapi.security.JwtTokenProvider;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@Log4j2
 public class CustomerapiApplication implements CommandLineRunner {
 
 	private final JwtTokenProvider jwtTokenProvider;
@@ -20,7 +22,7 @@ public class CustomerapiApplication implements CommandLineRunner {
 
 	public void run(String... args) {
 		String token = jwtTokenProvider.generateToken();
-		System.out.println(token);
+		log.info(token);
 	}
 
 }

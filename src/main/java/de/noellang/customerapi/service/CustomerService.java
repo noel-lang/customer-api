@@ -3,13 +3,10 @@ package de.noellang.customerapi.service;
 import de.noellang.customerapi.exception.ResourceNotFoundException;
 import de.noellang.customerapi.model.Customer;
 import de.noellang.customerapi.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.Optional;
 
