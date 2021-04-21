@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CustomizedRestExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public final ResponseEntity<?> handleResourceNotFound(Exception ex) {
+	public final ResponseEntity<ErrorResponse> handleResourceNotFound(Exception ex) {
 		ErrorResponse response = ErrorResponse
 				.builder()
 				.error("ResourceNotFound")
