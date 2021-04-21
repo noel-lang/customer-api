@@ -3,7 +3,6 @@ package de.noellang.customerapi.security;
 import io.jsonwebtoken.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -27,10 +26,6 @@ public class JwtTokenProvider {
 				.setExpiration(expiryDate)
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
-	}
-
-	public String generateToken(Authentication authentication) {
-		return generateToken();
 	}
 
 	public boolean validateToken(String authToken) {
