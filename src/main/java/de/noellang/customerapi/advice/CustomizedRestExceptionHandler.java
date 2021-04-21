@@ -1,5 +1,6 @@
 package de.noellang.customerapi.advice;
 
+import de.noellang.customerapi.exception.EmailAlreadyExistsException;
 import de.noellang.customerapi.exception.ErrorResponse;
 import de.noellang.customerapi.exception.ResourceNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,6 +18,19 @@ public class CustomizedRestExceptionHandler {
 				.builder()
 				.error("ResourceNotFound")
 				.message("Die angefragte Resource konnte nicht gefunden werden")
+				.build();
+
+		return ResponseEntity
+				.status(HttpStatus.NOT_FOUND)
+				.body(response);
+	}
+
+	@ExceptionHandler(EmailAlreadyExistsException.class)
+	public final ResponseEntity<ErrorResponse> handleEmailAlreadyExistsException(Exception ex) {
+		ErrorResponse response = ErrorResponse
+				.builder()
+				.error("EmailAlreadyExists")
+				.message("Diese E-Mail existiert bereits.")
 				.build();
 
 		return ResponseEntity

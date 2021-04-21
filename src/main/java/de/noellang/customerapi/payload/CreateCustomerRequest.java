@@ -1,18 +1,12 @@
-package de.noellang.customerapi.model;
+package de.noellang.customerapi.payload;
 
 import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Entity
 @Data
-public class Customer {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class CreateCustomerRequest {
 
 	@NotBlank
 	private String firstName;
@@ -22,7 +16,6 @@ public class Customer {
 
 	@NotBlank
 	@Email
-	@Column(unique = true)
 	private String email;
 
 }
