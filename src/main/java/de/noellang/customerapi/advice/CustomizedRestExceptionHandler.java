@@ -34,7 +34,7 @@ public class CustomizedRestExceptionHandler {
 				.build();
 
 		return ResponseEntity
-				.status(HttpStatus.NOT_FOUND)
+				.status(HttpStatus.BAD_REQUEST)
 				.body(response);
 	}
 
