@@ -4,6 +4,8 @@ import de.noellang.customerapi.exception.ResourceNotFoundException;
 import de.noellang.customerapi.model.Customer;
 import de.noellang.customerapi.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -22,6 +24,10 @@ public class CustomerService {
 
 	public List<Customer> findAll() {
 		return customerRepository.findAll();
+	}
+
+	public Page<Customer> findAll(Pageable pageable) {
+		return customerRepository.findAll(pageable);
 	}
 
 	public Customer findById(Long id) {

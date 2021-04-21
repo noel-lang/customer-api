@@ -25,13 +25,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests()
-				.antMatchers("/v1/auth/**")
+				.antMatchers(
+						"/v3/api-docs/**",
+						"/swagger-ui/**",
+						"/swagger-resources/**",
+						"/swagger-ui.html",
+						"/webjars/**",
+						"/swagger.json",
+						"/configuration/ui"
+				)
 				.permitAll()
 				.and()
-				.cors()
-				.and()
-				.csrf()
-				.disable()
 				.exceptionHandling()
 				.authenticationEntryPoint(unauthorizedHandler)
 				.and()
