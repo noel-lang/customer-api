@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/customer")
@@ -36,12 +33,12 @@ public class CustomerController {
 					content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)) }
 			)
 	})
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(value = "")
 	public ResponseEntity<Page<Customer>> index(Pageable pageable) {
 		return ResponseEntity.ok(customerService.findAll(pageable));
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Customer> show(@PathVariable Long id) {
 		return ResponseEntity.ok(customerService.findById(id));
 	}
