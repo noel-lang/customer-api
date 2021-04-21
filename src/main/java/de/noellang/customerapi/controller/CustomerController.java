@@ -26,7 +26,6 @@ public class CustomerController {
 	}
 
 	@Operation(
-			summary = "Liste alle Kunden auf.",
 			security = @SecurityRequirement(name = "bearerAuth")
 	)
 	@ApiResponses(value = {
