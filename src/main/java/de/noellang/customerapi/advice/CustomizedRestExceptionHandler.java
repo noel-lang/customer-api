@@ -2,6 +2,7 @@ package de.noellang.customerapi.advice;
 
 import de.noellang.customerapi.exception.ErrorResponse;
 import de.noellang.customerapi.exception.ResourceNotFoundException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class CustomizedRestExceptionHandler {
 
-	@ExceptionHandler(ResourceNotFoundException.class)
+	@ExceptionHandler({ ResourceNotFoundException.class, EmptyResultDataAccessException.class })
 	public final ResponseEntity<ErrorResponse> handleResourceNotFound(Exception ex) {
 		ErrorResponse response = ErrorResponse
 				.builder()

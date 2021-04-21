@@ -33,14 +33,20 @@ public class CustomerController {
 					content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)) }
 			)
 	})
-	@GetMapping(value = "")
+	@GetMapping("")
 	public ResponseEntity<Page<Customer>> index(Pageable pageable) {
 		return ResponseEntity.ok(customerService.findAll(pageable));
 	}
 
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Customer> show(@PathVariable Long id) {
 		return ResponseEntity.ok(customerService.findById(id));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		customerService.deleteById(id);
+		return ResponseEntity.ok().build();
 	}
 
 }
