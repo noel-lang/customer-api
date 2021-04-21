@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,12 @@ public class CustomerController {
 			)
 	})
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<?> index(Pageable pageable) {
+	public ResponseEntity<Page<Customer>> index(Pageable pageable) {
 		return ResponseEntity.ok(customerService.findAll(pageable));
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> show(@PathVariable Long id) {
+	public ResponseEntity<Customer> show(@PathVariable Long id) {
 		return ResponseEntity.ok(customerService.findById(id));
 	}
 
