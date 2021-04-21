@@ -17,8 +17,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build and test project
-        run: mvn -f clean verify
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run tests with Maven
+        run: mvn -B test --file pom.xml
   build:
     name: Build
     runs-on: ubuntu-latest
