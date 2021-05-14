@@ -26,14 +26,12 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
-	@Operation(
-			security = @SecurityRequirement(name = "bearerAuth")
-	)
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Liste aller Kunden",
-					content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)) }
+					content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class)) }
 			)
 	})
 	@GetMapping("")
@@ -41,16 +39,19 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.findAll(pageable));
 	}
 
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
 	@PostMapping("")
 	public ResponseEntity<Customer> create(@Valid @RequestBody CreateCustomerRequest request) {
 		return ResponseEntity.ok(customerService.create(request));
 	}
 
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/{id}")
 	public ResponseEntity<Customer> show(@PathVariable String id) {
 		return ResponseEntity.ok(customerService.findById(id));
 	}
 
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		customerService.deleteById(id);
