@@ -44,7 +44,7 @@ class CustomerControllerTest {
 	void cantRetrieveCustomersWhenUnauthenticated() throws Exception {
 		mockMvc.perform(get("/v1/customer"))
 				.andDo(print())
-				.andExpect(status().isForbidden());
+				.andExpect(status().isUnauthorized());
 	}
 
 	@Test
