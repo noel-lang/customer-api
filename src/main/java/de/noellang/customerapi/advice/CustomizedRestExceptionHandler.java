@@ -4,6 +4,7 @@ import de.noellang.customerapi.exception.EmailAlreadyExistsException;
 import de.noellang.customerapi.exception.ErrorResponse;
 import de.noellang.customerapi.exception.ResourceNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,6 +32,19 @@ public class CustomizedRestExceptionHandler {
 				.builder()
 				.error("EmailAlreadyExists")
 				.message("Diese E-Mail existiert bereits")
+				.build();
+
+		return ResponseEntity
+				.status(HttpStatus.BAD_REQUEST)
+				.body(response);
+	}
+
+	@ExceptionHandler(PropertyReferenceException.class)
+	public final ResponseEntity<ErrorResponse> handlePropertyReferenceException(Exception ex) {
+		ErrorResponse response = ErrorResponse
+				.builder()
+				.error("PropertyReference")
+				.message("Das übergebene Attribut existiert nicht")
 				.build();
 
 		return ResponseEntity
